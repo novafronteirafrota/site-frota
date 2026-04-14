@@ -28,7 +28,7 @@ const MemberCard: React.FC<MemberCardProps> = ({ member, className }) => {
     <Link
       to={`/profile/${member.id}`}
       className={cn(
-        'glass-card-hover rounded-lg p-4 flex flex-col items-center text-center group',
+        'glass-card-hover rounded-lg p-4 flex flex-col items-center text-center group h-full',
         className
       )}
     >
@@ -46,7 +46,25 @@ const MemberCard: React.FC<MemberCardProps> = ({ member, className }) => {
       <h3 className="mt-4 font-display text-sm text-foreground group-hover:text-primary transition-colors truncate max-w-full">
         {member.display_name}
       </h3>
-      <p className="text-xs text-muted-foreground mt-1">
+
+      {member.sub_rank && (
+        <div className="flex items-center gap-1.5 mt-1 px-2 py-0.5 rounded bg-primary/5 border border-primary/10">
+          {member.sub_rank.icon_url && (
+            <img
+              src={member.sub_rank.icon_url}
+              alt={member.sub_rank.name}
+              className="w-3.5 h-3.5 object-contain"
+            />
+          )}
+          <span className="text-[10px] text-primary font-display tracking-widest uppercase">
+            {member.sub_rank.name}
+          </span>
+        </div>
+      )}
+
+      <p className={cn(
+        "text-[10px] uppercase tracking-tighter text-muted-foreground mt-auto pt-2",
+      )}>
         {roleLabels[member.role]}
       </p>
     </Link>

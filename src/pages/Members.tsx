@@ -60,7 +60,7 @@ const Members: React.FC = () => {
   const subRankStats = useMemo(() => {
     const stats: { name: string; icon_url: string | null; count: number }[] = [];
     const subRankMap = new Map<string, { name: string; icon_url: string | null; count: number }>();
-    
+
     profiles.forEach((m) => {
       if (m.sub_rank) {
         const existing = subRankMap.get(m.sub_rank.id);
@@ -75,7 +75,7 @@ const Members: React.FC = () => {
         }
       }
     });
-    
+
     return Array.from(subRankMap.values()).sort((a, b) => b.count - a.count);
   }, [profiles]);
 
@@ -188,7 +188,7 @@ const Members: React.FC = () => {
           {filteredAndSortedMembers.map((member, index) => (
             <div
               key={member.id}
-              className="animate-fade-in"
+              className="animate-fade-in h-full"
               style={{ animationDelay: `${index * 50}ms` }}
             >
               <MemberCard member={member} />

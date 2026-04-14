@@ -113,9 +113,8 @@ const MembersList: React.FC = () => {
           return (
             <div
               key={profile.id}
-              className={`flex items-center gap-4 p-4 glass-card rounded-lg hover:border-primary/30 transition-colors ${
-                isCurrentUser ? 'border-primary/50' : ''
-              }`}
+              className={`flex items-center gap-4 p-4 glass-card rounded-lg hover:border-primary/30 transition-colors ${isCurrentUser ? 'border-primary/50' : ''
+                }`}
             >
               <Avatar className="h-12 w-12 border-2 border-border/50">
                 <AvatarImage src={profile.photo_url || undefined} />
@@ -129,8 +128,24 @@ const MembersList: React.FC = () => {
                   <h4 className="font-display text-foreground truncate">
                     {profile.display_name}
                   </h4>
+
+                  {profile.sub_rank && (
+                    <div className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-primary/5 border border-primary/10 flex-shrink-0">
+                      {profile.sub_rank.icon_url && (
+                        <img
+                          src={profile.sub_rank.icon_url}
+                          alt=""
+                          className="w-3.5 h-3.5 object-contain"
+                        />
+                      )}
+                      <span className="text-[10px] text-primary font-display tracking-widest uppercase hidden sm:inline">
+                        {profile.sub_rank.name}
+                      </span>
+                    </div>
+                  )}
+
                   {isCurrentUser && (
-                    <span className="text-xs text-primary">(você)</span>
+                    <span className="text-xs text-primary flex-shrink-0">(você)</span>
                   )}
                 </div>
                 <p className="text-sm text-muted-foreground truncate">

@@ -20,11 +20,10 @@ export const useSiteSettings = () => {
       const { data, error } = await supabase
         .from('site_settings')
         .select('*')
-        .limit(1)
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
-      return data as SiteSettings;
+      return data as SiteSettings | null;
     },
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
@@ -35,15 +34,27 @@ export const useUpdateSiteSettings = () => {
 
   return useMutation({
     mutationFn: async (updates: Partial<Omit<SiteSettings, 'id' | 'created_at' | 'updated_at'>>) => {
-      // Get current settings id first
+      // Get current settings id if it exists
       const { data: current, error: fetchError } = await supabase
         .from('site_settings')
         .select('id')
-        .limit(1)
-        .single();
+        .maybeSingle();
 
       if (fetchError) throw fetchError;
 
+      if (!current) {
+        // If no settings exist yet, insert the first record
+        const { data, error } = await supabase
+          .from('site_settings')
+          .insert(updates)
+          .select()
+          .single();
+
+        if (error) throw error;
+        return data as SiteSettings;
+      }
+
+      // If record exists, update it
       const { data, error } = await supabase
         .from('site_settings')
         .update(updates)
